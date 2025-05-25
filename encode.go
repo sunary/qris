@@ -19,11 +19,17 @@ func qrContent(ti TransferInfo) string {
 		amount = strconv.Itoa(int(ti.Amount))
 	}
 
-	providerReservedDomain := genFieldData(_PROVIDER_RESERVED_DOMAIN, ti.MerchantAccount.ReverseDomain)
-	providerGlobalID := genFieldData(_PROVIDER_GUID, ti.MerchantAccount.GlobalID)
-	providerID := genFieldData(_PROVIDER_ID, ti.MerchantAccount.ID)
-	providerType := genFieldData(_PROVIDER_TYPE, ti.MerchantAccount.Type)
-	providerData := genFieldData(_DOMESTIC1, joinString(providerReservedDomain, providerGlobalID, providerID, providerType))
+	providerReservedDomain := genFieldData(_PROVIDER_RESERVED_DOMAIN, ti.MerchantData.ReverseDomain)
+	providerGlobalID := genFieldData(_PROVIDER_GUID, ti.MerchantData.GlobalID)
+	providerID := genFieldData(_PROVIDER_ID, ti.MerchantData.ID)
+	providerType := genFieldData(_PROVIDER_TYPE, ti.MerchantData.Type)
+	providerData := genFieldData(_DOMESTIC_PAYMENT1, joinString(providerReservedDomain, providerGlobalID, providerID, providerType))
+
+	crReservedDomain := genFieldData(_PROVIDER_RESERVED_DOMAIN, ti.CentralRepository.ReverseDomain)
+	crGlobalID := genFieldData(_PROVIDER_GUID, ti.CentralRepository.GlobalID)
+	crID := genFieldData(_PROVIDER_ID, ti.CentralRepository.ID)
+	crType := genFieldData(_PROVIDER_TYPE, ti.CentralRepository.Type)
+	centralRepositoryData := genFieldData(_DOMESTIC_CENTRAL_REPOSITORY, joinString(crReservedDomain, crGlobalID, crID, crType))
 
 	category := genFieldData(_CATEGORY, "")
 	currency := genFieldData(_CURRENCY, "360")
@@ -44,6 +50,6 @@ func qrContent(ti TransferInfo) string {
 	EVMCoContent := ""
 	unreservedContent := ""
 
-	return joinString(version, initMethod, providerData, category, currency, amountStr, tipAndFeeType, tipAndFeeAmount, tipAndFeePercent,
+	return joinString(version, initMethod, providerData, centralRepositoryData, category, currency, amountStr, tipAndFeeType, tipAndFeeAmount, tipAndFeePercent,
 		nation, merchantName, city, zipCode, additionalData, EVMCoContent, unreservedContent, _CRC, "04")
 }

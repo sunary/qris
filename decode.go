@@ -23,8 +23,10 @@ func (t *TransferInfo) parseRootContent(s string) {
 	switch id {
 	case _VERSION:
 	case _INIT_METHOD:
-	case _DOMESTIC1, _DOMESTIC2:
-		t.parseProviderInfo(value)
+	case _DOMESTIC_PAYMENT1, _DOMESTIC_PAYMENT2:
+		t.parseProviderInfo(&t.MerchantData, value)
+	case _DOMESTIC_CENTRAL_REPOSITORY:
+		t.parseProviderInfo(&t.CentralRepository, value)
 	case _CATEGORY:
 	case _CURRENCY:
 	case _AMOUNT:
@@ -47,21 +49,21 @@ func (t *TransferInfo) parseRootContent(s string) {
 	}
 }
 
-func (t *TransferInfo) parseProviderInfo(s string) {
+func (t *TransferInfo) parseProviderInfo(domInfo *MerchantAccountDomesticInfo, s string) {
 	id, value, nextValue := slideContent(s)
 	switch id {
 	case _PROVIDER_RESERVED_DOMAIN:
-		t.MerchantAccount.ReverseDomain = value
+		domInfo.ReverseDomain = value
 	case _PROVIDER_GUID:
-		t.MerchantAccount.GlobalID = value
+		domInfo.GlobalID = value
 	case _PROVIDER_ID:
-		t.MerchantAccount.ID = value
+		domInfo.ID = value
 	case _PROVIDER_TYPE:
-		t.MerchantAccount.Type = value
+		domInfo.Type = value
 	}
 
 	if len(nextValue) > 4 {
-		t.parseProviderInfo(nextValue)
+		t.parseProviderInfo(domInfo, nextValue)
 	}
 }
 

@@ -1,11 +1,12 @@
 package qris
 
 type TransferInfo struct {
-	MerchantAccount MerchantAccountDomesticInfo
-	MerchantName    string
-	MerchantCity    string
-	Amount          int64
-	Message         string
+	MerchantData      MerchantAccountDomesticInfo
+	CentralRepository MerchantAccountDomesticInfo
+	MerchantName      string
+	MerchantCity      string
+	Amount            int64
+	Message           string
 }
 
 type MerchantAccountDomesticInfo struct {

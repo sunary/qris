@@ -14,7 +14,7 @@ import (
 
 func main() {
 	println("encode", qris.Encode(qris.TransferInfo{
-		MerchantAccount: MerchantAccountDomesticInfo{
+		MerchantData: MerchantAccountDomesticInfo{
 			ReverseDomain: "ID.CO.SHOPEE.WWW",
 			GlobalID:      "01",
 			ID:            "15863724",
@@ -31,15 +31,15 @@ func main() {
 		return
 	}
 
-	println("merchant reverse domain", info.MerchantAccount.ReverseDomain)
-	println("merchant global id", info.MerchantAccount.GlobalID)
-	println("merchant id", info.MerchantAccount.ID)
-	println("merchant type", info.MerchantAccount.Type)
+	println("merchant reverse domain", info.MerchantData.ReverseDomain)
+	println("merchant global id", info.MerchantData.GlobalID)
+	println("merchant id", info.MerchantData.ID)
+	println("merchant type", info.MerchantData.Type)
 	println("merchant name", info.MerchantName)
 	println("merchant city", info.MerchantCity)
-	println("decode", info.Amount)
+	println("amount", info.Amount)
 	println("message", info.Message)
 }
 ```
 
-Run online: [go.dev/play](https://go.dev/play/p/iIsRuek-hkk)
+Run online: [go.dev/play](https://go.dev/play/p/RN36rltkk3a)

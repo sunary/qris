@@ -2,22 +2,23 @@ package qris
 
 const (
 	// headers
-	_VERSION             = "00"
-	_INIT_METHOD         = "01"
-	_DOMESTIC1           = "26"
-	_DOMESTIC2           = "45"
-	_CATEGORY            = "52"
-	_CURRENCY            = "53" // defined by ISO 4217, Indonesian Rupiah is IDR
-	_AMOUNT              = "54"
-	_TIP_AND_FEE_TYPE    = "55"
-	_TIP_AND_FEE_AMOUNT  = "56"
-	_TIP_AND_FEE_PERCENT = "57"
-	_NATION              = "58" // defined by ISO 3166-1 alpha_2, Indonesia is ID
-	_MERCHANT_NAME       = "59"
-	_CITY                = "60"
-	_ZIP_CODE            = "61"
-	_ADDITIONAL_DATA     = "62"
-	_CRC                 = "63"
+	_VERSION                     = "00"
+	_INIT_METHOD                 = "01"
+	_DOMESTIC_PAYMENT1           = "26"
+	_DOMESTIC_PAYMENT2           = "45"
+	_DOMESTIC_CENTRAL_REPOSITORY = "51"
+	_CATEGORY                    = "52"
+	_CURRENCY                    = "53" // defined by ISO 4217, Indonesian Rupiah (IDR) is 360
+	_AMOUNT                      = "54"
+	_TIP_AND_FEE_TYPE            = "55"
+	_TIP_AND_FEE_AMOUNT          = "56"
+	_TIP_AND_FEE_PERCENT         = "57"
+	_NATION                      = "58" // defined by ISO 3166-1 alpha_2, Indonesia is ID
+	_MERCHANT_NAME               = "59"
+	_CITY                        = "60"
+	_ZIP_CODE                    = "61"
+	_ADDITIONAL_DATA             = "62"
+	_CRC                         = "63"
 
 	// provider headers
 	_PROVIDER_RESERVED_DOMAIN = "00"

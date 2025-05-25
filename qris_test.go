@@ -17,7 +17,7 @@ func TestEncode(t *testing.T) {
 			name: "only beneficiary info",
 			args: args{
 				TransferInfo{
-					MerchantAccount: MerchantAccountDomesticInfo{
+					MerchantData: MerchantAccountDomesticInfo{
 						ReverseDomain: "ID.CO.SHOPEE.WWW",
 						GlobalID:      "01",
 						ID:            "1893600918",
@@ -30,7 +30,7 @@ func TestEncode(t *testing.T) {
 			name: "with amount",
 			args: args{
 				TransferInfo{
-					MerchantAccount: MerchantAccountDomesticInfo{
+					MerchantData: MerchantAccountDomesticInfo{
 						ReverseDomain: "ID.CO.SHOPEE.WWW",
 						GlobalID:      "01",
 						ID:            "1893600918",
@@ -44,7 +44,7 @@ func TestEncode(t *testing.T) {
 			name: "with message",
 			args: args{
 				TransferInfo{
-					MerchantAccount: MerchantAccountDomesticInfo{
+					MerchantData: MerchantAccountDomesticInfo{
 						ReverseDomain: "ID.CO.SHOPEE.WWW",
 						GlobalID:      "01",
 						ID:            "1893600918",
@@ -58,10 +58,16 @@ func TestEncode(t *testing.T) {
 			name: "full info",
 			args: args{
 				TransferInfo{
-					MerchantAccount: MerchantAccountDomesticInfo{
+					MerchantData: MerchantAccountDomesticInfo{
 						ReverseDomain: "ID.CO.SHOPEE.WWW",
 						GlobalID:      "01",
 						ID:            "1893600918",
+					},
+					CentralRepository: MerchantAccountDomesticInfo{
+						ReverseDomain: "ID.CO.QRIS.WWW",
+						GlobalID:      "01",
+						ID:            "20250525",
+						Type:          "UBE",
 					},
 					MerchantName: "PT. SHOPPEE INDONESIA",
 					MerchantCity: "JAKARTA",
@@ -69,7 +75,7 @@ func TestEncode(t *testing.T) {
 					Message:      "gen by go-qris",
 				},
 			},
-			want: "00020101021226400016ID.CO.SHOPEE.WWW01020102101893600918530336054061520005802ID5921PT. SHOPPEE INDONESIA6007JAKARTA62180814gen by go-qris63044051",
+			want: "00020101021226400016ID.CO.SHOPEE.WWW0102010210189360091851430014ID.CO.QRIS.WWW0102010208202505250303UBE530336054061520005802ID5921PT. SHOPPEE INDONESIA6007JAKARTA62180814gen by go-qris6304058E",
 		},
 	}
 	for _, tt := range tests {
@@ -89,10 +95,14 @@ func TestDecode(t *testing.T) {
 		if t1 == nil || t2 == nil {
 			return false
 		}
-		return t1.MerchantAccount.ReverseDomain == t2.MerchantAccount.ReverseDomain &&
-			t1.MerchantAccount.GlobalID == t2.MerchantAccount.GlobalID &&
-			t1.MerchantAccount.ID == t2.MerchantAccount.ID &&
-			t1.MerchantAccount.Type == t2.MerchantAccount.Type &&
+		return t1.MerchantData.ReverseDomain == t2.MerchantData.ReverseDomain &&
+			t1.MerchantData.GlobalID == t2.MerchantData.GlobalID &&
+			t1.MerchantData.ID == t2.MerchantData.ID &&
+			t1.MerchantData.Type == t2.MerchantData.Type &&
+			t1.CentralRepository.ReverseDomain == t2.CentralRepository.ReverseDomain &&
+			t1.CentralRepository.GlobalID == t2.CentralRepository.GlobalID &&
+			t1.CentralRepository.ID == t2.CentralRepository.ID &&
+			t1.CentralRepository.Type == t2.CentralRepository.Type &&
 			t1.MerchantName == t2.MerchantName &&
 			t1.MerchantCity == t2.MerchantCity &&
 			t1.Amount == t2.Amount &&
@@ -130,7 +140,7 @@ func TestDecode(t *testing.T) {
 				"00020101021126400016ID.CO.SHOPEE.WWW0102010210189360091853033605802ID630492B2",
 			},
 			want: &TransferInfo{
-				MerchantAccount: MerchantAccountDomesticInfo{
+				MerchantData: MerchantAccountDomesticInfo{
 					ReverseDomain: "ID.CO.SHOPEE.WWW",
 					GlobalID:      "01",
 					ID:            "1893600918",
@@ -144,7 +154,7 @@ func TestDecode(t *testing.T) {
 				"00020101021226400016ID.CO.SHOPEE.WWW01020102101893600918530336054061200005802ID63040EE3",
 			},
 			want: &TransferInfo{
-				MerchantAccount: MerchantAccountDomesticInfo{
+				MerchantData: MerchantAccountDomesticInfo{
 					ReverseDomain: "ID.CO.SHOPEE.WWW",
 					GlobalID:      "01",
 					ID:            "1893600918",
@@ -159,7 +169,7 @@ func TestDecode(t *testing.T) {
 				"00020101021126400016ID.CO.SHOPEE.WWW0102010210189360091853033605802ID62220818gen by sunary/qris6304BB82",
 			},
 			want: &TransferInfo{
-				MerchantAccount: MerchantAccountDomesticInfo{
+				MerchantData: MerchantAccountDomesticInfo{
 					ReverseDomain: "ID.CO.SHOPEE.WWW",
 					GlobalID:      "01",
 					ID:            "1893600918",
@@ -171,13 +181,19 @@ func TestDecode(t *testing.T) {
 		{
 			name: "correct data: full info",
 			args: args{
-				"00020101021226400016ID.CO.SHOPEE.WWW01020102101893600918530336054061520005802ID5921PT. SHOPPEE INDONESIA6007JAKARTA62180814gen by go-qris63044051",
+				"00020101021226400016ID.CO.SHOPEE.WWW0102010210189360091851430014ID.CO.QRIS.WWW0102010208202505250303UBE530336054061520005802ID5921PT. SHOPPEE INDONESIA6007JAKARTA62180814gen by go-qris6304058E",
 			},
 			want: &TransferInfo{
-				MerchantAccount: MerchantAccountDomesticInfo{
+				MerchantData: MerchantAccountDomesticInfo{
 					ReverseDomain: "ID.CO.SHOPEE.WWW",
 					GlobalID:      "01",
 					ID:            "1893600918",
+				},
+				CentralRepository: MerchantAccountDomesticInfo{
+					ReverseDomain: "ID.CO.QRIS.WWW",
+					GlobalID:      "01",
+					ID:            "20250525",
+					Type:          "UBE",
 				},
 				MerchantName: "PT. SHOPPEE INDONESIA",
 				MerchantCity: "JAKARTA",
